@@ -288,6 +288,14 @@ def simple_evaluate(
 
     if check_integrity:
         run_task_tests(task_list=tasks)
+    
+    print("I'm here!!!!!")
+    print(type(lm))
+    print(type(lm.model))
+    print(type(lm.model.model.layers[0].self_attn))
+    from .llama_hack_sbfp_new import wrap_model, wrap_model_weights
+    wrap_model_weights(lm.model)
+    wrap_model(lm.model, quantize=True, block_size=128)
 
     if evaluation_tracker is not None:
         evaluation_tracker.general_config_tracker.log_experiment_args(
